@@ -3,14 +3,14 @@ const { addWeatherRecord,deleteWeatherRecord,getExpiredWeatherForecasts,getNonEx
 const {verifyJWT} = require('../middleware/verifyJWT');
 const router=express.Router();
 
-//signup route
-router.post('/addrecord',addWeatherRecord);
+//add weatehr route
+router.post('/addrecord',verifyJWT,addWeatherRecord);
 
-//login route
-router.post('/deleterecord/:id',deleteWeatherRecord);
+//deleteweather route
+router.post('/deleterecord/:id',verifyJWT,deleteWeatherRecord);
 
 //get expired weather forecast
-router.get('/getexpired',getExpiredWeatherForecasts);
+router.get('/getexpired',verifyJWT,getExpiredWeatherForecasts);
 
 //get non expired weather forecast
 router.get('/getnonExpired',verifyJWT,getNonExpiredWeatherForecasts);
