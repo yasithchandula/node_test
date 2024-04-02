@@ -7,7 +7,7 @@ const router=express.Router();
 router.post('/addrecord',verifyJWT,addWeatherRecord);
 
 //deleteweather route
-router.post('/deleterecord/:id',verifyJWT,deleteWeatherRecord);
+router.delete('/delete/:id',verifyJWT,deleteWeatherRecord);
 
 //get expired weather forecast
 router.get('/getexpired',verifyJWT,getExpiredWeatherForecasts);

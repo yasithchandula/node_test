@@ -31,4 +31,19 @@ const getAllDistricts = async (req, res) => {
     }
 };
 
-module.exports = { addDistrict, getAllDistricts };
+// Controller for deleting a district
+const deleteDistrict = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedDistrict = await District.findByIdAndDelete(id);
+        if (!deletedDistrict) {
+            return res.status(404).json({ message: 'District not found' });
+        }
+        res.status(200).json({ message: 'District deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting district' });
+    }
+};
+
+module.exports = { addDistrict, getAllDistricts,deleteDistrict };
