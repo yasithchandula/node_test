@@ -27,9 +27,12 @@ app.use(bodyParser.json());
 
 //define routes 
 
-app.use('/student',require('./routes/student.route'));
+app.use('/',require('./routes/user.route'));
 
-app.use('/course',require('./routes/course.route'));
+app.use('/district', require('./routes/district.route'));
+
+app.use('/wcast', require('./routes/weatherCast.route'));
+
 
 
 connection.once("open",() =>{
