@@ -7,7 +7,7 @@ const router=express.Router();
 router.post('/addDistrict',verifyJWT,addDistrict);
 
 //get all districts route
-router.get('/getDistricts',verifyJWT,getAllDistricts);
+router.get('/getDistricts',getAllDistricts);
 
 //deleteDistrict route
 router.delete('/delete/:id',verifyJWT,deleteDistrict);

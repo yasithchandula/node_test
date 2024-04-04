@@ -1,29 +1,23 @@
+const { json } = require('body-parser');
 const WeatherCast = require('../models/weatherCast.model');
 
 // Controller for adding a new weather record
 const addWeatherRecord = async (req, res) => {
-    const { districtId, districtName, temperature, humidity, airPressure, dateTime } = req.body;
-
+    const requestData = req.body;
+    console.log(requestData);
     try {
         // Check if there are any previous weather records for the district
-        const previousRecords = await WeatherCast.find({ districtId });
+        const previousRecords = await WeatherCast.find({ isExpired:false });
         if (previousRecords.length > 0) {
             // Set isExpired to true for previous records
-            await WeatherCast.updateMany({ districtId }, { isExpired: true });
+            await WeatherCast.updateMany({ isExpired: true });
         }
 
-        // Create a new weather record
-        const newWeatherRecord = new WeatherCast({
-            districtId,
-            districtName,
-            temperature,
-            humidity,
-            airPressure,
-            dateTime
-        });
-        await newWeatherRecord.save();
+            // Insert district data into MongoDB
+    const insertData = await WeatherCast.insertMany(requestData);
         
-        res.status(201).json({ message: 'Weather record added successfully' });
+            // Respond with success message
+    res.status(200).json({ message: 'District data inserted successfully', insertData });
     } catch (error) {
         res.status(500).json({ message: 'Error adding weather record' });
     }
@@ -38,6 +32,18 @@ const deleteWeatherRecord = async (req, res) => {
         if (!deletedRecord) {
             return res.status(404).json({ message: 'Weather record not found' });
         }
+
+        res.status(200).json({ message: 'Weather record deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting weather record' });
+    }
+};
+
+// Controller for deleting a weather record
+const deleteAllWeather = async (req, res) => {
+    try {
+        
+        await WeatherCast.deleteMany({});
 
         res.status(200).json({ message: 'Weather record deleted successfully' });
     } catch (error) {
@@ -65,4 +71,4 @@ const getNonExpiredWeatherForecasts = async (req, res) => {
     }
 };
 
-module.exports = { addWeatherRecord, deleteWeatherRecord,getExpiredWeatherForecasts,getNonExpiredWeatherForecasts };
+module.exports = { addWeatherRecord, deleteWeatherRecord,getExpiredWeatherForecasts,getNonExpiredWeatherForecasts,deleteAllWeather };
