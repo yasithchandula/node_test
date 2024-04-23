@@ -7,11 +7,12 @@ const app = express();
 
 const URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT||8070;
+const DB_NAME = 'item';
 
 //create mongoose connection
                                         //npm run dev for server startup
 
-mongoose.connect(URL,{
+mongoose.connect(`${URL}${DB_NAME}`,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -27,11 +28,7 @@ app.use(bodyParser.json());
 
 //define routes 
 
-app.use('/',require('./routes/user.route'));
-
-app.use('/district', require('./routes/district.route'));
-
-app.use('/wcast', require('./routes/weatherCast.route'));
+app.use('/item', require('./routes/item.route'));
 
 
 
